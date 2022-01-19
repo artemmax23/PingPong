@@ -14,7 +14,7 @@ namespace PingPong.Client.Logic.Clients
         private readonly IStringify<byte[]> _byteArrayStringify;
 
         public SocketClient(Socket socket,
-                            IStringify<TData> stringify, 
+                            IStringify<TData> stringify,
                             IStringify<byte[]> byteArrayStringify)
         {
             _socket = socket;
@@ -41,11 +41,10 @@ namespace PingPong.Client.Logic.Clients
                 var bytes = new byte[1024];
                 var bytesReceived = _socket.Receive(bytes);
                 data += Encoding.ASCII.GetString(bytes, 0, bytesReceived);
-                
-                Console.WriteLine($"recived part of a message {data}");
 
-                if (data.IndexOf("<EOF>") > -1)
+                if (data.Contains((char)4))
                 {
+                    data = data.Substring(0, data.Length - 1);
                     break;
                 }
             }
@@ -62,11 +61,9 @@ namespace PingPong.Client.Logic.Clients
 
             var stringifiedData = _stringify.Stringify(data);
 
-            var byteData = _byteArrayStringify.Parse(stringifiedData + "<EOF>");
+            var byteData = _byteArrayStringify.Parse(stringifiedData + (char)4);
 
             _socket.Send(byteData);
-
-            Console.WriteLine("sent data, waiting for response...");
 
             var recivedData = ListenLoop();
 
@@ -77,8 +74,6 @@ namespace PingPong.Client.Logic.Clients
 
         public void Connect(EndPoint endPoint)
         {
-            Console.WriteLine("connection made to server, waiting for input...");
-
             _socket.Connect(endPoint);
         }
     }

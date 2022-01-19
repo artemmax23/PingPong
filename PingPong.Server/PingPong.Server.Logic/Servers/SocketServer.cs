@@ -1,6 +1,5 @@
 ﻿using PingPong.Server.Logic.ResponseHandlers.Abstract;
 using PingPong.Server.Logic.Servers.Abstract;
-using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -31,9 +30,12 @@ namespace PingPong.Server.Logic.Servers
 
         private void Reply(byte[] message, Socket handlerSocket)
         {
-            Console.WriteLine($"sending data to client. client {handlerSocket.RemoteEndPoint}");
+            var finalizedMessage = new byte[message.Length + 1];
 
-            handlerSocket.Send(message);
+            message.CopyTo(finalizedMessage, 0);
+            finalizedMessage[^1] = 4;
+
+            handlerSocket.Send(finalizedMessage);
         }
 
         private string ListenLoop(Socket handlerSocket)
@@ -46,10 +48,9 @@ namespace PingPong.Server.Logic.Servers
                 var bytesReceived = handlerSocket.Receive(bytes);
                 data += Encoding.ASCII.GetString(bytes, 0, bytesReceived);
 
-                Console.WriteLine($"recived part of a message {data}");
-
-                if (data.IndexOf("<EOF>") > -1)
+                if (data.Contains((char)4))
                 {
+                    data = data.Substring(0, data.Length - 1);
                     break;
                 }
             }
@@ -59,18 +60,14 @@ namespace PingPong.Server.Logic.Servers
 
         private void Listen(Task<Socket> socketTask)
         {
-            Console.WriteLine("connection made, now listening...");
             var handlerSocket = socketTask.Result;
 
             while (handlerSocket.Connected)
             {
                 var data = ListenLoop(handlerSocket);
 
-                Console.WriteLine($"got data from client. client {handlerSocket.RemoteEndPoint} data {data}");
                 Reply(_onDataHandler.HandleData(data), handlerSocket);
             }
-
-            Console.WriteLine($"closing connection with client. client {handlerSocket.RemoteEndPoint}");
 
             handlerSocket.Shutdown(SocketShutdown.Both);
             handlerSocket.Close();
@@ -84,7 +81,6 @@ namespace PingPong.Server.Logic.Servers
 
             while (true)
             {
-                Console.WriteLine("waiting for connection...");
                 await _socket.AcceptAsync().ContinueWith(Listen);
             }
         }

@@ -33,6 +33,7 @@ namespace PingPong.Client
 
             while (true)
             {
+                Console.Write("Enter a message to send: ");
                 socketClient.SendData(Console.ReadLine());
             }
         }
