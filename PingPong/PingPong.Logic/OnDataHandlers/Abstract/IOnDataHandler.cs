@@ -1,9 +1,7 @@
-﻿using System.Net;
-
-namespace PingPong.Logic.OnDataHandlers.Abstract
+﻿namespace PingPong.Logic.OnDataHandlers.Abstract
 {
     public interface IOnDataHandler<TData>
     {
-        byte[] HandleData(string data);
+        byte[] HandleData(TData data);
     }
 }
