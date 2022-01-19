@@ -1,7 +1,7 @@
-﻿using PingPong.Logic.DataParsers;
-using PingPong.Logic.OnDataHandlers;
-using PingPong.Logic.Servers;
-using PingPong.Logic.Servers.Abstract;
+﻿using PingPong.Server.Logic.DataParsers;
+using PingPong.Server.Logic.ResponseHandlers;
+using PingPong.Server.Logic.Servers;
+using PingPong.Server.Logic.Servers.Abstract;
 using System.Net.Sockets;
 
 namespace PingPong
@@ -14,7 +14,7 @@ namespace PingPong
 
             var dataParser = new StringToByteArrayDataParser();
 
-            var onDataHandler = new SendBackOnDataHandler<string>(dataParser);
+            var onDataHandler = new SendBackResponseHandler<string>(dataParser);
 
             var socketServer = new SocketServer(onDataHandler, socket);
 

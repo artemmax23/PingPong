@@ -6,7 +6,9 @@ namespace PingPong
     {
         static void Main(string[] args)
         {
-            var endPoint = new DnsEndPoint("127.0.0.1", int.Parse(args[0]));
+            var ipAddress = new IPAddress(new byte[] { 127, 0, 0, 1 });
+
+            var endPoint = new IPEndPoint(ipAddress, int.Parse(args[0]));
 
             var bootstrapper = new Bootstrapper();
 

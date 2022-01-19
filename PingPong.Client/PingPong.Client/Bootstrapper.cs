@@ -1,7 +1,6 @@
 ﻿using PingPong.Client.Logic.Clients;
 using PingPong.Client.Logic.Clients.Abstract;
-using PingPong.Client.Logic.DataParsers;
-using PingPong.Client.Logic.DataParsers.Abstract;
+using PingPong.Client.Logic.DataConverters.Stringifies;
 using PingPong.Client.Presentation.OnDataHandlers;
 using System.Net.Sockets;
 
@@ -13,17 +12,15 @@ namespace PingPong.Client
         {
             var socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
 
-            IDataParser<string, byte[]> dataToByteArrayDataParser = new StringToByteArrayDataParser();
+            var byteArrayStringify = new ByteArrayStringify();
 
-            IDataParser<string, string> stringToDataDataParser = new StringToStringDataParser();
+            var stringStringify = new StringStringify();
+
+            var socketClient = new SocketClient<string>(socket, stringStringify, byteArrayStringify);
 
             var output = new ConsoleOutput();
 
-            IDataParser<string, string> stringToOutputDataParser = stringToDataDataParser;
-
-            var onDataHandler = new OutputOnDataHandler<string, string>(stringToDataDataParser, output);
-            
-            var socketClient = new SocketClient<string>(socket, stringToDataDataParser, dataToByteArrayDataParser);
+            var onDataHandler = new OutputOnDataHandler<string, string>(stringStringify, output);
 
             socketClient.OnReciveDataEvent += onDataHandler.OnDataEventHandler;
 

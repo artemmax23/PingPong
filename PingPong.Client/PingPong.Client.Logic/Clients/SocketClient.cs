@@ -1,5 +1,5 @@
 ﻿using PingPong.Client.Logic.Clients.Abstract;
-using PingPong.Client.Logic.DataParsers.Abstract;
+using PingPong.Client.Logic.DataConverters.Stringifies.Abstract;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -9,17 +9,17 @@ namespace PingPong.Client.Logic.Clients
 {
     public class SocketClient<TData> : IClient<TData>
     {
-        private readonly IDataParser<TData, byte[]> _dataToByteArrayDataParser;
+        private readonly IStringify<TData> _stringify;
 
-        private readonly IDataParser<string, TData> _stringToDataDataParser;
+        private readonly IStringify<byte[]> _byteArrayStringify;
 
         public SocketClient(Socket socket,
-                            IDataParser<string, TData> stringToDataDataParser, 
-                            IDataParser<TData, byte[]> dataToByteArrayDataParser)
+                            IStringify<TData> stringify, 
+                            IStringify<byte[]> byteArrayStringify)
         {
-            _stringToDataDataParser = stringToDataDataParser;
-            _dataToByteArrayDataParser = dataToByteArrayDataParser;
             _socket = socket;
+            _stringify = stringify;
+            _byteArrayStringify = byteArrayStringify;
         }
 
         ~SocketClient()
@@ -41,6 +41,8 @@ namespace PingPong.Client.Logic.Clients
                 var bytes = new byte[1024];
                 var bytesReceived = _socket.Receive(bytes);
                 data += Encoding.ASCII.GetString(bytes, 0, bytesReceived);
+                
+                Console.WriteLine($"recived part of a message {data}");
 
                 if (data.IndexOf("<EOF>") > -1)
                 {
@@ -58,15 +60,25 @@ namespace PingPong.Client.Logic.Clients
                 return;
             }
 
-            _socket.Send(_dataToByteArrayDataParser.Parse(data));
+            var stringifiedData = _stringify.Stringify(data);
+
+            var byteData = _byteArrayStringify.Parse(stringifiedData + "<EOF>");
+
+            _socket.Send(byteData);
+
+            Console.WriteLine("sent data, waiting for response...");
 
             var recivedData = ListenLoop();
 
-            OnReciveDataEvent?.Invoke(_stringToDataDataParser.Parse(recivedData));
+            var parsedRecivedData = _stringify.Parse(recivedData);
+
+            OnReciveDataEvent?.Invoke(parsedRecivedData);
         }
 
         public void Connect(EndPoint endPoint)
         {
+            Console.WriteLine("connection made to server, waiting for input...");
+
             _socket.Connect(endPoint);
         }
     }

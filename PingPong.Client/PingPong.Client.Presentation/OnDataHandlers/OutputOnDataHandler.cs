@@ -1,4 +1,4 @@
-﻿using PingPong.Client.Logic.DataParsers.Abstract;
+﻿using PingPong.Client.Logic.DataConverters.Abstract;
 using PingPong.Client.Logic.OnDataHandlers.Abstract;
 using PingPong.Client.Presentation.Abstract;
 
@@ -8,9 +8,9 @@ namespace PingPong.Client.Presentation.OnDataHandlers
     {
         private readonly IOutput<TOut> _output;
 
-        private readonly IDataParser<TData, TOut> _dataParser;
+        private readonly IDataConverter<TData, TOut> _dataParser;
 
-        public OutputOnDataHandler(IDataParser<TData, TOut> dataParser, IOutput<TOut> output)
+        public OutputOnDataHandler(IDataConverter<TData, TOut> dataParser, IOutput<TOut> output)
         {
             _dataParser = dataParser;
             _output = output;
