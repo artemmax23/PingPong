@@ -33,25 +33,32 @@ namespace PingPong.Server.Logic.Servers
             handlerSocket.Send(message);
         }
 
+        private string ListenLoop(Socket handlerSocket)
+        {
+            var data = string.Empty;
+
+            while (true)
+            {
+                var bytes = new byte[1024];
+                var bytesReceived = handlerSocket.Receive(bytes);
+                data += Encoding.ASCII.GetString(bytes, 0, bytesReceived);
+
+                if (data.IndexOf("<EOF>") > -1)
+                {
+                    break;
+                }
+            }
+
+            return data;
+        }
+
         private void Listen(Task<Socket> socketTask)
         {
             var handlerSocket = socketTask.Result;
 
             while (handlerSocket.Connected)
             {
-                var data = string.Empty;
-
-                while (true)
-                {
-                    var bytes = new byte[1024];
-                    var bytesReceived = handlerSocket.Receive(bytes);
-                    data += Encoding.ASCII.GetString(bytes, 0, bytesReceived);
-
-                    if (data.IndexOf("<EOF>") > -1)
-                    {
-                        break;
-                    }
-                }
+                var data = ListenLoop(handlerSocket);
 
                 Reply(_onDataHandler.HandleData(data), handlerSocket);
             }
