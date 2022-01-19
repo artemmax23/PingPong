@@ -22,6 +22,12 @@ namespace PingPong.Client.Logic.Clients
             _socket = socket;
         }
 
+        ~SocketClient()
+        {
+            _socket.Shutdown(SocketShutdown.Both);
+            _socket.Close();
+        }
+
         private readonly Socket _socket;
 
         public Action<TData> OnReciveDataEvent { get; set; }
