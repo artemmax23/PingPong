@@ -9,25 +9,22 @@ namespace PingPong.Client.Logic.Clients
 {
     public class SocketClient<TData> : IClient<TData>
     {
-        private IDataParser<TData, byte[]> _dataToByteArrayDataParser;
+        private readonly IDataParser<TData, byte[]> _dataToByteArrayDataParser;
 
-        private IDataParser<string, TData> _stringToDataDataParser;
+        private readonly IDataParser<string, TData> _stringToDataDataParser;
 
-        public SocketClient(IDataParser<string, TData> stringToDataDataParser, 
+        public SocketClient(Socket socket,
+                            IDataParser<string, TData> stringToDataDataParser, 
                             IDataParser<TData, byte[]> dataToByteArrayDataParser)
         {
             _stringToDataDataParser = stringToDataDataParser;
             _dataToByteArrayDataParser = dataToByteArrayDataParser;
+            _socket = socket;
         }
 
         private readonly Socket _socket;
 
         public Action<TData> OnReciveDataEvent { get; set; }
-
-        public SocketClient(Socket socket)
-        {
-            _socket = socket;
-        }
 
         private string ListenLoop()
         {

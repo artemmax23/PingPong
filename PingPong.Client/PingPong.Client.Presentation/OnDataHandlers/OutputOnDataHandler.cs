@@ -4,7 +4,7 @@ using PingPong.Client.Presentation.Abstract;
 
 namespace PingPong.Client.Presentation.OnDataHandlers
 {
-    public class OutputOnDataHandler<TData, TOut> : OnDataHandler<TData>
+    public class OutputOnDataHandler<TData, TOut> : IOnDataHandler<TData>
     {
         private readonly IOutput<TOut> _output;
 
