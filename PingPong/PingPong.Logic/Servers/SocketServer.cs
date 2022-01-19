@@ -9,7 +9,23 @@ namespace PingPong.Logic.Servers
 {
     public class SocketServer : IServer
     {
+        private Socket _socket;
+
         private readonly IOnDataHandler<string> _onDataHandler;
+
+        public SocketServer(IOnDataHandler<string> onDataHandler)
+        {
+            _onDataHandler = onDataHandler;
+        }
+
+        ~SocketServer()
+        {
+            if (!(_socket is null))
+            {
+                _socket.Shutdown(SocketShutdown.Both);
+                _socket.Close();
+            } 
+        }
 
         private void Reply(byte[] message, Socket handlerSocket)
         {
@@ -45,16 +61,16 @@ namespace PingPong.Logic.Servers
 
         public async Task RunOn(int port)
         {
-            var socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+            _socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
             var endPoint = new DnsEndPoint("127.0.0.1", port);
 
-            socket.Bind(endPoint);
+            _socket.Bind(endPoint);
 
-            socket.Listen(100);
+            _socket.Listen(100);
 
             while (true)
             {
-                await socket.AcceptAsync().ContinueWith(Listen);
+                await _socket.AcceptAsync().ContinueWith(Listen);
             }
         }
     }
