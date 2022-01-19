@@ -1,4 +1,4 @@
-﻿namespace PingPong.Logic.DataParsers.Abstract
+﻿namespace PingPong.Server.Logic.DataParsers.Abstract
 {
     public interface IDataParser<TParseFrom, TParseTo>
     {

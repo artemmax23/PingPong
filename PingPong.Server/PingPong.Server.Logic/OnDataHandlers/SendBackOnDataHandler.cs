@@ -1,7 +1,7 @@
-﻿using PingPong.Logic.DataParsers.Abstract;
-using PingPong.Logic.OnDataHandlers.Abstract;
+﻿using PingPong.Server.Logic.DataParsers.Abstract;
+using PingPong.Server.Logic.OnDataHandlers.Abstract;
 
-namespace PingPong.Logic.OnDataHandlers
+namespace PingPong.Server.Logic.OnDataHandlers
 {
     public class SendBackOnDataHandler<TData> : IOnDataHandler<TData>
     {

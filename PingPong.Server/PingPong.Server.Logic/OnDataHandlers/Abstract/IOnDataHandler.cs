@@ -1,4 +1,4 @@
-﻿namespace PingPong.Logic.OnDataHandlers.Abstract
+﻿namespace PingPong.Server.Logic.OnDataHandlers.Abstract
 {
     public interface IOnDataHandler<TData>
     {

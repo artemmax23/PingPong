@@ -1,11 +1,11 @@
-﻿using PingPong.Logic.OnDataHandlers.Abstract;
-using PingPong.Logic.Servers.Abstract;
+﻿using PingPong.Server.Logic.OnDataHandlers.Abstract;
+using PingPong.Server.Logic.Servers.Abstract;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PingPong.Logic.Servers
+namespace PingPong.Server.Logic.Servers
 {
     public class SocketServer : IServer
     {
@@ -25,7 +25,7 @@ namespace PingPong.Logic.Servers
             {
                 _socket.Shutdown(SocketShutdown.Both);
                 _socket.Close();
-            } 
+            }
         }
 
         private void Reply(byte[] message, Socket handlerSocket)
@@ -43,8 +43,8 @@ namespace PingPong.Logic.Servers
 
                 while (true)
                 {
-                    byte[] bytes = new byte[1024];
-                    int bytesReceived = handlerSocket.Receive(bytes);
+                    var bytes = new byte[1024];
+                    var bytesReceived = handlerSocket.Receive(bytes);
                     data += Encoding.ASCII.GetString(bytes, 0, bytesReceived);
 
                     if (data.IndexOf("<EOF>") > -1)

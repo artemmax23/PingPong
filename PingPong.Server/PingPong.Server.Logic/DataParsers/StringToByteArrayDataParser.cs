@@ -1,7 +1,7 @@
-﻿using PingPong.Logic.DataParsers.Abstract;
+﻿using PingPong.Server.Logic.DataParsers.Abstract;
 using System.Text;
 
-namespace PingPong.Logic.DataParsers
+namespace PingPong.Server.Logic.DataParsers
 {
     public class StringToByteArrayDataParser : IDataParser<string, byte[]>
     {

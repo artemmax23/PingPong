@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 
-namespace PingPong.Logic.Servers.Abstract
+namespace PingPong.Server.Logic.Servers.Abstract
 {
     public interface IServer
     {
