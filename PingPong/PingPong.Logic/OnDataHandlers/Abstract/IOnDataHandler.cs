@@ -2,8 +2,8 @@
 
 namespace PingPong.Logic.OnDataHandlers.Abstract
 {
-    public interface IOnDataHandler
+    public interface IOnDataHandler<TData>
     {
-        void OnDataFromEndPointEventHandler(byte[] data, IPEndPoint fromIPEndPoint);
+        byte[] HandleData(string data);
     }
 }

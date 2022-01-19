@@ -1,7 +1,9 @@
-﻿namespace PingPong.Logic.Servers.Abstract
+﻿using System.Threading.Tasks;
+
+namespace PingPong.Logic.Servers.Abstract
 {
     public interface IServer
     {
-        void RunOn(int port);
+        Task RunOn(int port);
     }
 }
