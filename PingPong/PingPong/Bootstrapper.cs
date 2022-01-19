@@ -8,7 +8,7 @@ namespace PingPong
 {
     public class Bootstrapper
     {
-        public IServer BootstrapSever()
+        public IServer BootstrapSocketSever()
         {
             var socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
 

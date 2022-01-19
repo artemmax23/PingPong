@@ -10,7 +10,7 @@ namespace PingPong
 
             var bootstrapper = new Bootstrapper();
 
-            var socketServer = bootstrapper.BootstrapSever();
+            var socketServer = bootstrapper.BootstrapSocketSever();
 
             socketServer.RunOn(endPoint).GetAwaiter().GetResult();
         }
