@@ -1,7 +1,7 @@
 ﻿namespace PingPong.Logic.DataParsers.Abstract
 {
-    public interface IDataParser<TParseTo>
+    public interface IDataParser<TParseFrom, TParseTo>
     {
-        TParseTo Parse(byte[] data);
+        TParseTo Parse(TParseFrom data);
     }
 }

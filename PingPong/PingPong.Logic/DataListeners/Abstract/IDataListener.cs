@@ -7,4 +7,9 @@ namespace PingPong.Logic.DataListeners.Abstract
     {
         Action<byte[], IPEndPoint> OnDataFromEndPoint { get; set; }
     }
+
+    public interface IDataSender
+    {
+
+    }
 }
