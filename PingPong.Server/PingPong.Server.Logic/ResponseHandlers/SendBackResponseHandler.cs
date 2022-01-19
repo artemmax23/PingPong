@@ -1,13 +1,13 @@
 ﻿using PingPong.Server.Logic.DataParsers.Abstract;
-using PingPong.Server.Logic.OnDataHandlers.Abstract;
+using PingPong.Server.Logic.ResponseHandlers.Abstract;
 
-namespace PingPong.Server.Logic.OnDataHandlers
+namespace PingPong.Server.Logic.ResponseHandlers
 {
-    public class SendBackOnDataHandler<TData> : IOnDataHandler<TData>
+    public class SendBackResponseHandler<TData> : IResponseHandler<TData>
     {
         private readonly IDataParser<TData, byte[]> _dataParser;
 
-        public SendBackOnDataHandler(IDataParser<TData, byte[]> dataParser)
+        public SendBackResponseHandler(IDataParser<TData, byte[]> dataParser)
         {
             _dataParser = dataParser;
         }

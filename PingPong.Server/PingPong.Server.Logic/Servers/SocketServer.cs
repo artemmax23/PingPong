@@ -1,4 +1,4 @@
-﻿using PingPong.Server.Logic.OnDataHandlers.Abstract;
+﻿using PingPong.Server.Logic.ResponseHandlers.Abstract;
 using PingPong.Server.Logic.Servers.Abstract;
 using System.Net;
 using System.Net.Sockets;
@@ -11,9 +11,9 @@ namespace PingPong.Server.Logic.Servers
     {
         private readonly Socket _socket;
 
-        private readonly IOnDataHandler<string> _onDataHandler;
+        private readonly IResponseHandler<string> _onDataHandler;
 
-        public SocketServer(IOnDataHandler<string> onDataHandler, Socket socket)
+        public SocketServer(IResponseHandler<string> onDataHandler, Socket socket)
         {
             _socket = socket;
             _onDataHandler = onDataHandler;
