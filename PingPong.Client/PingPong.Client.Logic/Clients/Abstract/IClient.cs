@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 
 namespace PingPong.Client.Logic.Clients.Abstract
 {
@@ -7,5 +8,7 @@ namespace PingPong.Client.Logic.Clients.Abstract
         Action<TData> OnReciveDataEvent { get; set; }
 
         void SendData(TData data);
+
+        void Connect(EndPoint endPoint);
     }
 }
