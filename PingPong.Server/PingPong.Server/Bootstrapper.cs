@@ -16,7 +16,7 @@ namespace PingPong
 
             var onDataHandler = new SendBackResponseHandler<string>(dataParser);
 
-            var socketServer = new SocketServer(onDataHandler, socket);
+            var socketServer = new TCPServer(onDataHandler);
 
             return socketServer;
         }

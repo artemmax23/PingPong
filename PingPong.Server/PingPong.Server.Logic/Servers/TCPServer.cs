@@ -7,45 +7,46 @@ using System.Threading.Tasks;
 
 namespace PingPong.Server.Logic.Servers
 {
-    public class SocketServer : IServer
+    public class TCPServer : IServer
     {
-        private readonly Socket _socket;
+        private TcpListener _tcpListener;
 
         private readonly IResponseHandler<string> _onDataHandler;
 
-        public SocketServer(IResponseHandler<string> onDataHandler, Socket socket)
+        public TCPServer(IResponseHandler<string> onDataHandler)
         {
-            _socket = socket;
             _onDataHandler = onDataHandler;
         }
 
-        ~SocketServer()
+        ~TCPServer()
         {
-            if (!(_socket is null))
+            if (!(_tcpListener is null))
             {
-                _socket.Shutdown(SocketShutdown.Both);
-                _socket.Close();
+                _tcpListener.Stop();
             }
         }
 
-        private void Reply(byte[] message, Socket handlerSocket)
+        private void Reply(byte[] message, TcpClient handlerSocket)
         {
             var finalizedMessage = new byte[message.Length + 1];
 
             message.CopyTo(finalizedMessage, 0);
             finalizedMessage[^1] = 4;
 
-            handlerSocket.Send(finalizedMessage);
+            var networkStream = handlerSocket.GetStream();
+            networkStream.Write(finalizedMessage);
         }
 
-        private string ListenLoop(Socket handlerSocket)
+        private string ListenLoop(TcpClient tcpClient)
         {
             var data = string.Empty;
+
+            var networkStream = tcpClient.GetStream();
 
             while (true)
             {
                 var bytes = new byte[1024];
-                var bytesReceived = handlerSocket.Receive(bytes);
+                var bytesReceived = networkStream.Read(bytes);
                 data += Encoding.ASCII.GetString(bytes, 0, bytesReceived);
 
                 if (data.Contains((char)4))
@@ -58,32 +59,31 @@ namespace PingPong.Server.Logic.Servers
             return data;
         }
 
-        private void Listen(Socket handlerSocket)
+        private void Listen(TcpClient tcpClient)
         {
-            while (handlerSocket.Connected)
+            while (tcpClient.Connected)
             {
-                var data = ListenLoop(handlerSocket);
+                var data = ListenLoop(tcpClient);
 
                 var replyMessage = _onDataHandler.HandleData(data);
 
-                Reply(replyMessage, handlerSocket);
+                Reply(replyMessage, tcpClient);
             }
 
-            handlerSocket.Shutdown(SocketShutdown.Both);
-            handlerSocket.Close();
+            tcpClient.Close();
         }
 
         public void RunOn(IPEndPoint endPoint)
         {
-            _socket.Bind(endPoint);
+            _tcpListener = new TcpListener(endPoint);
 
-            _socket.Listen(100);
+            _tcpListener.Start();
 
-            while (_socket.IsBound)
+            while (true)
             {
-                var handlerSocket = _socket.Accept();
+                var tcpClient = _tcpListener.AcceptTcpClient();
 
-                Task.Run(() => Listen(handlerSocket));
+                Task.Run(() => Listen(tcpClient));
             }
         }
     }

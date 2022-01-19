@@ -9,6 +9,6 @@ namespace PingPong.Client.Logic.Clients.Abstract
 
         void SendData(TData data);
 
-        void Connect(EndPoint endPoint);
+        void Connect(IPEndPoint endPoint);
     }
 }

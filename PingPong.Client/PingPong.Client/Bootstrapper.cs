@@ -10,13 +10,15 @@ namespace PingPong.Client
     {
         public IClient<string> BootstrapStringSocketClient()
         {
+            var tcpClient = new TcpClient();
+
             var socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
 
             var byteArrayStringify = new ByteArrayStringify();
 
             var stringStringify = new StringStringify();
 
-            var socketClient = new SocketClient<string>(socket, stringStringify, byteArrayStringify);
+            var socketClient = new TCPClient<string>(stringStringify, byteArrayStringify, tcpClient);
 
             var output = new ConsoleOutput();
 

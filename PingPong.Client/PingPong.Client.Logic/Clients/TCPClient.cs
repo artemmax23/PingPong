@@ -8,39 +8,41 @@ using System.Threading.Tasks;
 
 namespace PingPong.Client.Logic.Clients
 {
-    public class SocketClient<TData> : IClient<TData>
+    public class TCPClient<TData> : IClient<TData>
     {
-        private readonly Socket _socket;
-
-        public Action<TData> OnReciveDataEvent { get; set; }
-
         private readonly IStringify<TData> _stringify;
 
         private readonly IStringify<byte[]> _byteArrayStringify;
 
-        public SocketClient(Socket socket,
-                            IStringify<TData> stringify,
-                            IStringify<byte[]> byteArrayStringify)
+        private readonly TcpClient _tcpClient;
+
+        public Action<TData> OnReciveDataEvent { get; set; }
+
+        public TCPClient(IStringify<TData> stringify,
+                         IStringify<byte[]> byteArrayStringify,
+                         TcpClient tcpClient)
         {
-            _socket = socket;
             _stringify = stringify;
             _byteArrayStringify = byteArrayStringify;
+            _tcpClient = tcpClient;
         }
 
-        ~SocketClient()
+        ~TCPClient()
         {
-            _socket.Shutdown(SocketShutdown.Both);
-            _socket.Close();
+            _tcpClient.Close();
         }
 
         private string ListenLoop()
         {
             var data = string.Empty;
 
+            var networkStream = _tcpClient.GetStream();
+
             while (true)
             {
                 var bytes = new byte[1024];
-                var bytesReceived = _socket.Receive(bytes);
+
+                var bytesReceived = networkStream.Read(bytes);
                 data += Encoding.ASCII.GetString(bytes, 0, bytesReceived);
 
                 if (data.Contains((char)4))
@@ -55,7 +57,7 @@ namespace PingPong.Client.Logic.Clients
 
         private void Listen()
         {
-            while (_socket.Connected)
+            while (_tcpClient.Connected)
             {
                 var recivedData = ListenLoop();
 
@@ -67,7 +69,7 @@ namespace PingPong.Client.Logic.Clients
 
         public void SendData(TData data)
         {
-            if (_socket is null)
+            if (_tcpClient is null)
             {
                 return;
             }
@@ -76,12 +78,14 @@ namespace PingPong.Client.Logic.Clients
 
             var byteData = _byteArrayStringify.Parse(stringifiedData + (char)4);
 
-            _socket.Send(byteData);
+            var networkStream = _tcpClient.GetStream();
+
+            networkStream.Write(byteData);
         }
 
         public void Connect(IPEndPoint endPoint)
         {
-            _socket.Connect(endPoint);
+            _tcpClient.Connect(endPoint);
 
             Task.Run(() => Listen());
         }
