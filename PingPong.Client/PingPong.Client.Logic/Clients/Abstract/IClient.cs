@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PingPong.Client.Logic.Clients.Abstract 
+namespace PingPong.Client.Logic.Clients.Abstract
 {
     public interface IClient<TData>
     {
