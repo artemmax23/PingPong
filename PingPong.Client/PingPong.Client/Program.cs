@@ -31,9 +31,10 @@ namespace PingPong.Client
 
             socketClient.Connect(endPoint);
 
+            Console.WriteLine("Connected to server, you can start writing messages");
+
             while (true)
             {
-                Console.Write("Enter a message to send: ");
                 socketClient.SendData(Console.ReadLine());
             }
         }

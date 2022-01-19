@@ -14,7 +14,7 @@ namespace PingPong
 
             var socketServer = bootstrapper.BootstrapSocketSever();
 
-            socketServer.RunOn(endPoint).GetAwaiter().GetResult();
+            socketServer.RunOn(endPoint);
         }
     }
 }

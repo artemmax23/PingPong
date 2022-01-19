@@ -2,6 +2,6 @@
 {
     public interface IOnDataHandler<TData>
     {
-        void OnDataEventHandler(TData data); 
+        void OnDataEventHandler(TData data);
     }
 }

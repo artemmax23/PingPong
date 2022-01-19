@@ -4,6 +4,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PingPong.Client.Logic.Clients
 {
@@ -52,6 +53,18 @@ namespace PingPong.Client.Logic.Clients
             return data;
         }
 
+        private void Listen()
+        {
+            while (_socket.Connected)
+            {
+                var recivedData = ListenLoop();
+
+                var parsedRecivedData = _stringify.Parse(recivedData);
+
+                OnReciveDataEvent?.Invoke(parsedRecivedData);
+            }
+        }
+
         public void SendData(TData data)
         {
             if (_socket is null)
@@ -64,17 +77,13 @@ namespace PingPong.Client.Logic.Clients
             var byteData = _byteArrayStringify.Parse(stringifiedData + (char)4);
 
             _socket.Send(byteData);
-
-            var recivedData = ListenLoop();
-
-            var parsedRecivedData = _stringify.Parse(recivedData);
-
-            OnReciveDataEvent?.Invoke(parsedRecivedData);
         }
 
         public void Connect(EndPoint endPoint)
         {
             _socket.Connect(endPoint);
+
+            Task.Run(() => Listen());
         }
     }
 }

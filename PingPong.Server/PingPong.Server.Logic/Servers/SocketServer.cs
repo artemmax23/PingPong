@@ -58,30 +58,32 @@ namespace PingPong.Server.Logic.Servers
             return data;
         }
 
-        private void Listen(Task<Socket> socketTask)
+        private void Listen(Socket handlerSocket)
         {
-            var handlerSocket = socketTask.Result;
-
             while (handlerSocket.Connected)
             {
                 var data = ListenLoop(handlerSocket);
 
-                Reply(_onDataHandler.HandleData(data), handlerSocket);
+                var replyMessage = _onDataHandler.HandleData(data);
+
+                Reply(replyMessage, handlerSocket);
             }
 
             handlerSocket.Shutdown(SocketShutdown.Both);
             handlerSocket.Close();
         }
 
-        public async Task RunOn(EndPoint endPoint)
+        public void RunOn(EndPoint endPoint)
         {
             _socket.Bind(endPoint);
 
             _socket.Listen(100);
 
-            while (true)
+            while (_socket.IsBound)
             {
-                await _socket.AcceptAsync().ContinueWith(Listen);
+                var handlerSocket = _socket.Accept();
+
+                Task.Run(() => Listen(handlerSocket));
             }
         }
     }
