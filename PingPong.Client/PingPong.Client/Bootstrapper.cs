@@ -1,4 +1,5 @@
-﻿using PingPong.Client.Logic.Clients;
+﻿using PingPong.Client.Common;
+using PingPong.Client.Logic.Clients;
 using PingPong.Client.Logic.Clients.Abstract;
 using PingPong.Client.Logic.DataConverters.Stringifies;
 using PingPong.Client.Presentation.OnDataHandlers;
@@ -8,7 +9,7 @@ namespace PingPong.Client
 {
     public class Bootstrapper
     {
-        public IClient<string> BootstrapStringSocketClient()
+        public IClient<Person> BootstrapClient()
         {
             var tcpClient = new TcpClient();
 
@@ -18,11 +19,13 @@ namespace PingPong.Client
 
             var stringStringify = new StringStringify();
 
-            var socketClient = new TCPClient<string>(stringStringify, byteArrayStringify, tcpClient);
+            var genericJsonStringify = new GenericJsonStringify<Person>();
+
+            var socketClient = new TCPClient<Person>(genericJsonStringify, byteArrayStringify, tcpClient);
 
             var output = new ConsoleOutput();
 
-            var onDataHandler = new OutputOnDataHandler<string, string>(stringStringify, output);
+            var onDataHandler = new StringOutputOnDataHandler<Person>(genericJsonStringify, output);
 
             socketClient.OnReciveDataEvent += onDataHandler.OnDataEventHandler;
 

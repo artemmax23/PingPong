@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PingPong.Client.Common\PingPong.Client.Common.csproj" />
     <ProjectReference Include="..\PingPong.Client.Logic\PingPong.Client.Logic.csproj" />
     <ProjectReference Include="..\PingPong.Client.Presentation\PingPong.Client.Presentation.csproj" />
   </ItemGroup>

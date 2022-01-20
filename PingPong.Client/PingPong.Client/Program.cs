@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PingPong.Client.Common;
+using System;
 using System.Net;
 
 namespace PingPong.Client
@@ -9,7 +10,7 @@ namespace PingPong.Client
         {
             var bootstrapper = new Bootstrapper();
 
-            var socketClient = bootstrapper.BootstrapStringSocketClient();
+            var socketClient = bootstrapper.BootstrapClient();
 
             Console.Write("Enter server ip address: ");
             var ipInput = Console.ReadLine().Split('.');
@@ -31,11 +32,15 @@ namespace PingPong.Client
 
             socketClient.Connect(endPoint);
 
-            Console.WriteLine("Connected to server, you can start writing messages");
+            Console.WriteLine("Connected to server, you can start writing people to send [enter their name and then age]");
 
             while (true)
             {
-                socketClient.SendData(Console.ReadLine());
+                var personName = Console.ReadLine();
+
+                var personAge = int.Parse(Console.ReadLine());
+
+                socketClient.SendData(new Person(personName, personAge));
             }
         }
     }
