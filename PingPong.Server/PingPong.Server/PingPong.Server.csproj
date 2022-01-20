@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PingPong.Server.Logic\PingPong.Server.Logic.csproj" />
+    <ProjectReference Include="..\PingPong.Server.Presentation\PingPong.Server.Presentation.csproj" />
   </ItemGroup>
 
 </Project>
