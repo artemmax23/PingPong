@@ -3,9 +3,9 @@ using System;
 
 namespace PingPong.Client
 {
-    public class ConsoleOutput : IOutput<string>
+    public class ConsoleOutput<TOut> : IOutput<TOut>
     {
-        public void Output(string output)
+        public void Output(TOut output)
         {
             Console.WriteLine(output);
         }

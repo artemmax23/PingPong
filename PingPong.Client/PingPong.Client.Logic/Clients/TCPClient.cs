@@ -63,6 +63,8 @@ namespace PingPong.Client.Logic.Clients
 
                 var parsedRecivedData = _stringify.Parse(recivedData);
 
+                Console.WriteLine("recived data from server");
+
                 OnReciveDataEvent?.Invoke(parsedRecivedData);
             }
         }
@@ -73,6 +75,8 @@ namespace PingPong.Client.Logic.Clients
             {
                 return;
             }
+
+            Console.WriteLine("sending data to server");
 
             var stringifiedData = _stringify.Stringify(data);
 

@@ -21,15 +21,15 @@ namespace PingPong.Client
 
             var genericJsonStringify = new GenericJsonStringify<Person>();
 
-            var socketClient = new TCPClient<Person>(genericJsonStringify, byteArrayStringify, tcpClient);
+            var client = new TCPClient<Person>(genericJsonStringify, byteArrayStringify, tcpClient);
 
-            var output = new ConsoleOutput();
+            var output = new ConsoleOutput<string>();
 
             var onDataHandler = new OutputOnDataHandler<string, string>(stringStringify, output);
 
-            socketClient.OnReciveDataEvent += (recivedObject) => onDataHandler.OnDataEventHandler(recivedObject.ToString());
+            client.OnReciveDataEvent += (recivedObject) => onDataHandler.OnDataEventHandler(recivedObject.ToString());
 
-            return socketClient;
+            return client;
         }
     }
 }
