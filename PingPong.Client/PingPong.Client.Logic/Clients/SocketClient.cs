@@ -45,7 +45,7 @@ namespace PingPong.Client.Logic.Clients
 
                 if (data.Contains((char)4))
                 {
-                    data = data.Substring(0, data.Length - 1);
+                    data = data[0..^1];
                     break;
                 }
             }
