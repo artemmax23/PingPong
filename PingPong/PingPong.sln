@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPong.Common", "PingPong
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPong.Common.Logic", "PingPong.Common.Logic\PingPong.Common.Logic.csproj", "{6BDC9A15-04EF-46A2-9AE9-EE50C20F2B13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPong.Client.Logic", "PingPong.Client.Logic\PingPong.Client.Logic.csproj", "{0D03EABC-FB78-4F74-BD51-91C8E5675059}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{6BDC9A15-04EF-46A2-9AE9-EE50C20F2B13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BDC9A15-04EF-46A2-9AE9-EE50C20F2B13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BDC9A15-04EF-46A2-9AE9-EE50C20F2B13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D03EABC-FB78-4F74-BD51-91C8E5675059}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D03EABC-FB78-4F74-BD51-91C8E5675059}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D03EABC-FB78-4F74-BD51-91C8E5675059}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D03EABC-FB78-4F74-BD51-91C8E5675059}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
