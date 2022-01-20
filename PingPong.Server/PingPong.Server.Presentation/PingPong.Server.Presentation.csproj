@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PingPong.Server.Logic\PingPong.Server.Logic.csproj" />
+  </ItemGroup>
+
 </Project>
