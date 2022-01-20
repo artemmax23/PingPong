@@ -33,8 +33,6 @@ namespace PingPong.Server.Logic.Servers
             message.CopyTo(finalizedMessage, 0);
             finalizedMessage[^1] = 4;
 
-            System.Console.WriteLine("sending response to client");
-
             var networkStream = handlerSocket.GetStream();
             networkStream.Write(finalizedMessage);
         }
@@ -63,23 +61,14 @@ namespace PingPong.Server.Logic.Servers
 
         private void Listen(TcpClient tcpClient)
         {
-            try
+            while (tcpClient.Connected)
             {
-                while (tcpClient.Connected)
-                {
-                    var data = ListenLoop(tcpClient);
+                var data = ListenLoop(tcpClient);
 
-                    System.Console.WriteLine("recived data from client");
-
-                    _onDataHandler.HandleData(data, (replyMessage) => Reply(replyMessage, tcpClient));
-                }
-
-                tcpClient.Close();
-            } catch (System.Exception e)
-            {
-                System.Console.WriteLine(e);
-                throw;
+                _onDataHandler.HandleData(data, (replyMessage) => Reply(replyMessage, tcpClient));
             }
+
+            tcpClient.Close();
         }
 
         public void RunOn(IPEndPoint endPoint)

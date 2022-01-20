@@ -64,9 +64,7 @@ namespace PingPong.Server.Logic.Servers
             {
                 var data = ListenLoop(handlerSocket);
 
-                var replyMessage = _onDataHandler.HandleData(data);
-
-                Reply(replyMessage, handlerSocket);
+                _onDataHandler.HandleData(data, (replyMessage) => Reply(replyMessage, handlerSocket));
             }
 
             handlerSocket.Shutdown(SocketShutdown.Both);
