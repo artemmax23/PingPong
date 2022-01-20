@@ -1,7 +1,7 @@
-﻿using PingPong.Client.Presentation.Abstract;
+﻿using PingPong.Common.Presentation.Abstract;
 using System;
 
-namespace PingPong.Client
+namespace PingPong.Common.ConsolePresentation
 {
     public class ConsoleOutput<TOut> : IOutput<TOut>
     {
