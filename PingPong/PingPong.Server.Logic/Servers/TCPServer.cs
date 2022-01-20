@@ -71,9 +71,7 @@ namespace PingPong.Server.Logic.Servers
 
                     System.Console.WriteLine("recived data from client");
 
-                    var replyMessage = _onDataHandler.HandleData(data);
-
-                    Reply(replyMessage, tcpClient);
+                    _onDataHandler.HandleData(data, (replyMessage) => Reply(replyMessage, tcpClient));
                 }
 
                 tcpClient.Close();

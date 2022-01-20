@@ -1,6 +1,6 @@
-﻿using PingPong.Client.Logic.DataConverters.Abstract;
-using PingPong.Client.Logic.OnDataHandlers.Abstract;
-using PingPong.Client.Presentation.Abstract;
+﻿using PingPong.Client.Logic.OnDataHandlers.Abstract;
+using PingPong.Common.Logic.DataConverters.Abstract;
+using PingPong.Common.Presentation.Abstract;
 
 namespace PingPong.Client.Presentation.OnDataHandlers
 {

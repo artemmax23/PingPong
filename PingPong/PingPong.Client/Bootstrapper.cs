@@ -1,8 +1,9 @@
-﻿using PingPong.Client.Common;
-using PingPong.Client.Logic.Clients;
+﻿using PingPong.Client.Logic.Clients;
 using PingPong.Client.Logic.Clients.Abstract;
-using PingPong.Client.Logic.DataConverters.Stringifies;
 using PingPong.Client.Presentation.OnDataHandlers;
+using PingPong.Common;
+using PingPong.Common.ConsolePresentation;
+using PingPong.Common.Logic.DataConverters.Stringifies;
 using System.Net.Sockets;
 
 namespace PingPong.Client

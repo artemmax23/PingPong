@@ -1,4 +1,4 @@
-﻿using PingPong.Client.Common;
+﻿using PingPong.Common;
 using System;
 using System.Net;
 

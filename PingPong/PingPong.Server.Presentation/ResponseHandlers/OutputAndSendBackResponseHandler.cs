@@ -1,6 +1,7 @@
-﻿using PingPong.Server.Logic.DataParsers.Abstract;
+﻿using PingPong.Common.Logic.DataConverters.Abstract;
+using PingPong.Common.Presentation.Abstract;
 using PingPong.Server.Logic.ResponseHandlers.Abstract;
-using PingPong.Server.Presentation.Abstract;
+using System;
 
 namespace PingPong.Server.Presentation.ResponseHandlers
 {
@@ -8,28 +9,28 @@ namespace PingPong.Server.Presentation.ResponseHandlers
     {
         private readonly IOutput<TOut> _output;
 
-        private readonly IDataParser<TData, TOut> _dataToOutDataParser;
+        private readonly IDataConverter<TData, TOut> _dataToOutDataConverter;
 
-        private readonly IDataParser<TData, byte[]> _dataToByteArrayDataParser;
+        private readonly IDataConverter<TData, byte[]> _dataToByteArrayDataConverter;
 
         public OutputAndSendBackResponseHandler(IOutput<TOut> output,
-                                                IDataParser<TData, TOut> dataToOutDataParser,
-                                                IDataParser<TData, byte[]> dataToByteArrayDataParser)
+                                                IDataConverter<TData, TOut> dataToOutDataConverter,
+                                                IDataConverter<TData, byte[]> dataToByteArrayDataConverter)
         {
             _output = output;
-            _dataToOutDataParser = dataToOutDataParser;
-            _dataToByteArrayDataParser = dataToByteArrayDataParser;
+            _dataToOutDataConverter = dataToOutDataConverter;
+            _dataToByteArrayDataConverter = dataToByteArrayDataConverter;
         }
 
-        public byte[] HandleData(TData data)
+        public void HandleData(TData data, Action<byte[]> reply)
         {
-            var outData = _dataToOutDataParser.Parse(data);
+            var outData = _dataToOutDataConverter.Parse(data);
 
             _output.Output(outData);
 
-            var dataBytes = _dataToByteArrayDataParser.Parse(data);
+            var dataBytes = _dataToByteArrayDataConverter.Parse(data);
 
-            return dataBytes;
+            reply?.Invoke(dataBytes);
         }
     }
 }

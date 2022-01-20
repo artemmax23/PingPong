@@ -1,5 +1,5 @@
 ﻿using PingPong.Client.Logic.Clients.Abstract;
-using PingPong.Client.Logic.DataConverters.Stringifies.Abstract;
+using PingPong.Common.Logic.DataConverters.Stringifies.Abstract;
 using System;
 using System.Net;
 using System.Net.Sockets;
