@@ -11,13 +11,13 @@ namespace PingPong.Server
     {
         public IServer BootstrapSocketSever()
         {
-            var output = new ConsoleOutput<JSONPerson>();
+            var output = new ConsoleOutput<Person>();
 
             var stringToByteArrayDataParser = new StringToByteArrayDataParser();
 
-            var stringToPersonDataParser = new JsonStringToGenericDataParser<JSONPerson>();
+            var stringToPersonDataParser = new JsonStringToGenericDataParser<Person>();
 
-            var onDataHandler = new OutputAndSendBackResponseHandler<string, JSONPerson>(output, stringToPersonDataParser, stringToByteArrayDataParser);
+            var onDataHandler = new OutputAndSendBackResponseHandler<string, Person>(output, stringToPersonDataParser, stringToByteArrayDataParser);
 
             var socketServer = new TCPServer(onDataHandler);
 

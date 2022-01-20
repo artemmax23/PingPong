@@ -1,4 +1,4 @@
-﻿namespace PingPong.Client.Common
+﻿namespace PingPong.Server.Common
 {
     public class Person
     {

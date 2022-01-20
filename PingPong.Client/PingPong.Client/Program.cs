@@ -40,7 +40,13 @@ namespace PingPong.Client
 
                 var personAge = int.Parse(Console.ReadLine());
 
-                socketClient.SendData(new Person(personName, personAge));
+                var person = new Person()
+                {
+                    Name = personName,
+                    Age = personAge,
+                };
+
+                socketClient.SendData(person);
             }
         }
     }
