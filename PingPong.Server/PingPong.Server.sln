@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PingPong.Server.Logic", "Pi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPong.Server.Presentation", "PingPong.Server.Presentation\PingPong.Server.Presentation.csproj", "{712C0CF6-B70B-49ED-9367-76322685C5BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPong.Server.Common", "PingPong.Server.Common\PingPong.Server.Common.csproj", "{5B127774-9404-4315-A660-8776F8AC4869}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{712C0CF6-B70B-49ED-9367-76322685C5BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{712C0CF6-B70B-49ED-9367-76322685C5BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{712C0CF6-B70B-49ED-9367-76322685C5BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B127774-9404-4315-A660-8776F8AC4869}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B127774-9404-4315-A660-8776F8AC4869}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B127774-9404-4315-A660-8776F8AC4869}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B127774-9404-4315-A660-8776F8AC4869}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
