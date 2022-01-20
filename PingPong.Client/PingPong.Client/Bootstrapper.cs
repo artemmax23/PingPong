@@ -25,9 +25,9 @@ namespace PingPong.Client
 
             var output = new ConsoleOutput();
 
-            var onDataHandler = new StringOutputOnDataHandler<Person>(genericJsonStringify, output);
+            var onDataHandler = new OutputOnDataHandler<string, string>(stringStringify, output);
 
-            socketClient.OnReciveDataEvent += onDataHandler.OnDataEventHandler;
+            socketClient.OnReciveDataEvent += (recivedObject) => onDataHandler.OnDataEventHandler(recivedObject.ToString());
 
             return socketClient;
         }
