@@ -4,30 +4,30 @@ using PingPong.Server.Presentation.Abstract;
 
 namespace PingPong.Server.Presentation.ResponseHandlers
 {
-    class OutputAndSendBackResponseHandler : IResponseHandler<string>
+    public class OutputAndSendBackResponseHandler<TData, TOut> : IResponseHandler<TData>
     {
-        private readonly IOutput<string> _output;
+        private readonly IOutput<TOut> _output;
 
-        private readonly IDataParser<string, object> _stringToObjectDataParser;
+        private readonly IDataParser<TData, TOut> _dataToOutDataParser;
 
-        private readonly IDataParser<string, byte[]> _stringToByteArrayDataParser;
+        private readonly IDataParser<TData, byte[]> _dataToByteArrayDataParser;
 
-        public OutputAndSendBackResponseHandler(IOutput<string> output,
-                                                IDataParser<string, object> stringToObjectDataParser, 
-                                                IDataParser<string, byte[]> stringToByteArrayDataParser)
+        public OutputAndSendBackResponseHandler(IOutput<TOut> output,
+                                                IDataParser<TData, TOut> dataToOutDataParser,
+                                                IDataParser<TData, byte[]> dataToByteArrayDataParser)
         {
             _output = output;
-            _stringToObjectDataParser = stringToObjectDataParser;
-            _stringToByteArrayDataParser = stringToByteArrayDataParser;
+            _dataToOutDataParser = dataToOutDataParser;
+            _dataToByteArrayDataParser = dataToByteArrayDataParser;
         }
 
-        public byte[] HandleData(string data)
+        public byte[] HandleData(TData data)
         {
-            var objectData = _stringToObjectDataParser.Parse(data);
+            var outData = _dataToOutDataParser.Parse(data);
 
-            _output.Output(objectData.ToString());
+            _output.Output(outData);
 
-            var dataBytes = _stringToByteArrayDataParser.Parse(data);
+            var dataBytes = _dataToByteArrayDataParser.Parse(data);
 
             return dataBytes;
         }

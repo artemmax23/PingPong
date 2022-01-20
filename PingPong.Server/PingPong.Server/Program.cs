@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace PingPong
+namespace PingPong.Server
 {
     class Program
     {
